@@ -1,0 +1,17 @@
+require 'rubyml/tools'
+
+class LinearRegression
+  include Tools::DataMethods
+
+  def initialize(iterations = 100)
+    @iterations = iterations
+  end
+
+  def fit(x, y)
+  end
+
+  def predict(x)
+    x_mat = bias_trick(x)
+    (x_mat * @theta).collect { |e| e.round(@precision) }
+  end
+end

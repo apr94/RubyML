@@ -6,9 +6,12 @@ Gem::Specification.new do |s|
   s.summary = 'A simple Ruby machine learning library.'
   s.description = 'This is a simple machine learning library
     written in Ruby. It provides implementations of linear regression,
-    perceptron, naive bayes and image segmentation, along with some
-    helper methods to deal with training and testing data.'
+    multiclass perceptron, Naive Bayes and K-means image segmentation.
+    Also included are helper methods to work with training and testing data.'
   s.authors = ['Palimar Rao']
-  s.files = ['lib/rubyml.rb', 'lib/rubyml/tools.rb', 'lib/rubyml/LinearRegression.rb']
+  s.files = ['lib/rubyml.rb',
+             'lib/rubyml/tools.rb',
+             'lib/rubyml/linear_regression.rb',
+             'lib/rubyml/perceptron.rb']
   s.license = 'MIT'
 end

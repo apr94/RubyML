@@ -1,5 +1,5 @@
 require 'rubyml/tools'
-require 'rubyml/LinearRegression'
+require 'rubyml/linear_regression'
 
 class RubyML
   include Tools::DataMethods
