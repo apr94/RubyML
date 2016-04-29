@@ -6,7 +6,7 @@ require 'rubyml/tools'
 class LinearRegression
   include Tools::DataMethods
   include Tools::ClassifierMethods
-  attr_reader :theta, :accuracy
+  attr_reader :theta, :accuracy, :precision, :folds
 
   def initialize(precision = 3, folds = 5)
     @precision = precision
