@@ -14,3 +14,7 @@ Helper methods to work with training and testing data are also included.
 * Load matrices from files.
 * Matrix splicing.
 * K-fold cross validation.
+
+---
+
+[![Coverage Status](https://coveralls.io/repos/github/palimarrao/RubyML/badge.svg?branch=master)](https://coveralls.io/github/palimarrao/RubyML?branch=master)
