@@ -1,6 +1,6 @@
 require 'rubyml/tools'
 
-class LinearRegression
+class Perceptron
   include Tools::DataMethods
 
   def initialize(iterations = 100)
@@ -23,30 +23,37 @@ class LinearRegression
     setup_weights(y)
     @iterations.times do
       x.row_count.times do |r|
-        clbl = get_best_guess(r)
-        next unless y[r] != clbl
-        x.column_count.times { |c| update_weights(clbl, y[r], c, x[r, c]) }
+        clbl = get_best_guess(x, r)
+        next unless y[r, 0] != clbl
+        x.column_count.times { |c| update_weights(clbl, y[r, 0], c, x[r, c]) }
       end
     end
   end
 
   def predict(x)
     preds = []
-    x.row_count.times { |r| preds << get_best_guess(r) }
-    Matrix.columns(preds)
+    x.row_count.times { |r| preds << get_best_guess(x, r) }
+    Matrix.columns([preds])
   end
 
-  def get_best_guess(r)
+  def get_best_guess(x, r)
     clbl, cmax = nil
-    cmax = 0.0
     @labels.each do |lbl|
       csum = 0.0
       x.column_count.times { |c| csum += @weights[lbl][c] * x[r, c] }
-      if cmax <= csum || clbl.nil?
+      if cmax.nil? || cmax <= csum
         cmax = csum
         clbl = lbl
       end
     end
     clbl
+  end
+
+  def cold_start
+    @labels = []
+    @weights = {}
+  end
+
+  def training_accuracy(x, y)
   end
 end
