@@ -16,5 +16,4 @@ Helper methods to work with training and testing data are also included.
 * K-fold cross validation.
 
 ---
-
-[![Coverage Status](https://coveralls.io/repos/github/palimarrao/RubyML/badge.svg?branch=master)](https://coveralls.io/github/palimarrao/RubyML?branch=master)
+[![Build Status](https://travis-ci.org/palimarrao/RubyML.svg?branch=master)](https://travis-ci.org/palimarrao/RubyML) [![Coverage Status](https://coveralls.io/repos/github/palimarrao/RubyML/badge.svg?branch=master)](https://coveralls.io/github/palimarrao/RubyML?branch=master)
