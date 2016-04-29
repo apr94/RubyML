@@ -2,9 +2,11 @@ require 'rubyml/tools'
 
 class Perceptron
   include Tools::DataMethods
+  include Tools::ClassifierMethods
 
-  def initialize(iterations = 100)
+  def initialize(iterations = 100, folds = 5)
     @iterations = iterations
+    @folds = folds
     @labels = []
     @weights = {}
   end
@@ -19,7 +21,8 @@ class Perceptron
     @weights[real][c] += w
   end
 
-  def fit(x, y)
+  def fit(x, y, cs = true)
+    cold_start if cs
     setup_weights(y)
     @iterations.times do
       x.row_count.times do |r|
@@ -52,8 +55,5 @@ class Perceptron
   def cold_start
     @labels = []
     @weights = {}
-  end
-
-  def training_accuracy(x, y)
   end
 end

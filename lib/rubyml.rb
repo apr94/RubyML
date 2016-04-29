@@ -37,21 +37,39 @@ class Matrix
   end
 
   def redirect4(rs, re, cs, ce, orig)
-    re = rs + 1 unless orig[0].include?(':')
-    ce = cs + 1 unless orig[1].include?(':')
-    redirect5(rs, re, cs, ce)
+    if orig[0] == ':'
+      rs = 0
+      re = row_count
+    end
+    if orig[1] == ':'
+      cs = 0
+      ce = column_count
+    end
+    redirect5(rs, re, cs, ce, orig)
   end
 
-  def redirect5(rs, re, cs, ce)
-    rs = rs.nil? ? 0 : rs
-    cs = cs.nil? ? 0 : cs
-    re = re.nil? ? row_count : re
-    ce = ce.nil? ? column_count : ce
+  def redirect5(rs, re, cs, ce, orig)
+    re = rs + 1 unless orig[0].include?(':')
+    ce = cs + 1 unless orig[1].include?(':')
     redirect6(rs, re, cs, ce)
   end
 
   def redirect6(rs, re, cs, ce)
-    return if rs >= re || cs >= ce
+    rs = rs.nil? ? 0 : rs
+    cs = cs.nil? ? 0 : cs
+    re = re.nil? ? row_count : re
+    ce = ce.nil? ? column_count : ce
+    redirect7(rs, re, cs, ce)
+  end
+
+  def redirect7(rs, re, cs, ce)
+    return Matrix.rows([]) if rs >= re && cs >= ce
+    return Matrix.rows([[]] * (re - rs)) if cs == ce
+    return Matrix.columns([[]] * (ce - cs)) if re == rs
+    redirect8(rs, re, cs, ce)
+  end
+
+  def redirect8(rs, re, cs, ce)
     rv = row_vectors[rs..re - 1].map(&:to_a)
     nrv = rv.map { |e| e[cs..ce - 1] }
     Matrix.rows(nrv)

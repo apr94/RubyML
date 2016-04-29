@@ -28,11 +28,49 @@ module Tools
       x_bias = ones.hstack(x)
       x_bias
     end
+  end
 
-    def normalize(data)
+  module ClassifierMethods
+    def generate_folds(x, y, num, folds)
+      sin = String(num * (x.row_count / folds))
+      ein = String([(num + 1) * (x.row_count / folds), x.row_count].min)
+      train = generate_train_set(x, y, sin, ein)
+      test = generate_test_set(x, y, sin, ein)
+      train + test
     end
 
-    def plot(data)
+    def generate_train_set(x, y, sin, ein)
+      xtrain = x[':' + sin, ':'].vstack(x[ein + ':', ':'])
+      ytrain = y[':' + sin, ':'].vstack(y[ein + ':', ':'])
+      [xtrain, ytrain]
+    end
+
+    def generate_test_set(x, y, sin, ein)
+      xtest = x[sin + ':' + ein, ':']
+      ytest = y[sin + ':' + ein, ':']
+      [xtest, ytest]
+    end
+
+    def correct_count(ypred, ytest, c, t, n)
+      count = 0.0
+      ypred.row_count.times do |r|
+        count += (ypred[r, 0] == ytest[r, 0] ? 1.0 : 0.0)
+      end
+      total = ypred.row_count
+      p "Fold #{n} Accuracy: #{(count / total * 100.0).round(3)}%"
+      [c + count, t + total]
+    end
+
+    def training_accuracy(x, y)
+      correct = 0.0
+      total = 0.0
+      @folds.times do |n|
+        xtrain, ytrain, xtest, ytest = generate_folds(x, y, n, @folds)
+        fit(xtrain, ytrain)
+        ypred = predict(xtest)
+        correct, total = correct_count(ypred, ytest, correct, total, n)
+      end
+      (correct / total).round(5)
     end
   end
 end
