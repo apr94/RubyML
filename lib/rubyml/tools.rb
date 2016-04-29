@@ -51,14 +51,21 @@ module Tools
       [xtest, ytest]
     end
 
+    def handle_epsilon(ypred, ytest, r)
+      if @epsilon
+        ((ypred[r, 0] - ytest[r, 0]).abs < @epsilon ? 1.0 : 0.0)
+      else
+        (ypred[r, 0] == ytest[r, 0] ? 1.0 : 0.0)
+      end
+    end
+
     def correct_count(ypred, ytest, c, t, n)
       count = 0.0
       ypred.row_count.times do |r|
-        count += (ypred[r, 0] == ytest[r, 0] ? 1.0 : 0.0)
+        count += handle_epsilon(ypred, ytest, r)
       end
-      total = ypred.row_count
-      p "Fold #{n} Accuracy: #{(count / total * 100.0).round(3)}%"
-      [c + count, t + total]
+      p "Fold #{n} Accuracy: #{(count / ypred.row_count * 100.0).round(3)}%"
+      [c + count, t + ypred.row_count]
     end
 
     def training_accuracy(x, y)

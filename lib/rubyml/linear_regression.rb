@@ -2,10 +2,13 @@ require 'rubyml/tools'
 
 class LinearRegression
   include Tools::DataMethods
+  include Tools::ClassifierMethods
   attr_reader :theta, :accuracy
 
-  def initialize(precision = 3)
+  def initialize(precision = 3, folds = 5)
     @precision = precision
+    @epsilon = 2.0
+    @folds = folds
   end
 
   def fit(x, y)

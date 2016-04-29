@@ -6,6 +6,7 @@ class Perceptron
 
   def initialize(iterations = 100, folds = 5)
     @iterations = iterations
+    @epsilon = nil
     @folds = folds
     @labels = []
     @weights = {}
