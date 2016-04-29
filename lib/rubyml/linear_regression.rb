@@ -1,5 +1,8 @@
 require 'rubyml/tools'
 
+# The linear regression class with
+# customizable number of folds for
+# K-fold cross validation.
 class LinearRegression
   include Tools::DataMethods
   include Tools::ClassifierMethods

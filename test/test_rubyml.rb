@@ -4,45 +4,74 @@ require 'coveralls'
 Coveralls.wear!
 
 class RubyMLTest < Minitest::Test
-  def test_load_data
-    rml = RubyML.new
-    data = rml.load_data('test/data/testdata1', true)
-    rows = [['6.0', '2.2', 'iris-versicolor'],
-            ['6.9', '3.1', 'iris-virginica'],
-            ['5.5', '2.4', 'iris-versicolor']]
-    mat = Matrix.rows(rows)
-    assert_equal mat, data
+  def test_matrix_splicing_one
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([[1, 2, 3],
+                        [5, 6, 7],
+                        [9, 10, 11],
+                        [12, 13, 14]])
+    assert_equal mat2, mat1[':', ':3']
   end
 
-  def test_separate_data
-    rml = RubyML.new
-    rows = [['6.0', '2.2', 'iris-versicolor'],
-            ['6.9', '3.1', 'iris-virginica'],
-            ['5.5', '2.4', 'iris-versicolor']]
-    data = Matrix.rows(rows)
-    x, y = rml.separate_data(data)
-    xrows = [[6.0, 2.2],
-             [6.9, 3.1],
-             [5.5, 2.4]]
-    yrows = [['iris-versicolor'],
-             ['iris-virginica'],
-             ['iris-versicolor']]
-    xdata = Matrix.rows(xrows)
-    ydata = Matrix.rows(yrows)
-    assert_equal x, xdata
-    assert_equal y, ydata
+  def test_matrix_splicing_two
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    assert_equal mat2, mat1[':', ':']
   end
 
-  def test_mat_to_array
-    rml = RubyML.new
-    mat = Matrix.rows([[1, 2], [3, 4]])
-    assert_equal rml.mat_to_array(mat), [1, 2, 3, 4]
+  def test_matrix_splicing_three
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([[2, 3, 4],
+                        [6, 7, 8],
+                        [10, 11, 12]])
+    assert_equal mat2, mat1[':3', '1:']
   end
 
-  def test_bias_trick
-    rml = RubyML.new
-    mat1 = Matrix.rows([[1, 2], [3, 4]])
-    mat2 = Matrix.rows([[1, 1, 2], [1, 3, 4]])
-    assert_equal rml.bias_trick(mat1), mat2
+  def test_matrix_splicing_four
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([])
+    assert_equal mat2, mat1['1:1', '2:2']
+  end
+
+  def test_matrix_splicing_five
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([[7]])
+    assert_equal mat2, mat1['1:2', '2:3']
+  end
+
+  def test_matrix_splicing_six
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([[2], [6], [10], [13]])
+    assert_equal mat2, mat1[':', '1']
+  end
+
+  def test_matrix_splicing_seven
+    mat1 = Matrix.rows([[1, 2, 3, 4],
+                        [5, 6, 7, 8],
+                        [9, 10, 11, 12],
+                        [12, 13, 14, 15]])
+    mat2 = Matrix.rows([[1, 2, 3, 4]])
+    assert_equal mat2, mat1['0', ':']
   end
 end

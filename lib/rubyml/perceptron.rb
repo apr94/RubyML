@@ -1,8 +1,12 @@
 require 'rubyml/tools'
 
+# The multiclass perceptron class with
+# customizable number of iterations and folds.
 class Perceptron
   include Tools::DataMethods
   include Tools::ClassifierMethods
+
+  attr_reader :iterations, :folds, :labels, :weights
 
   def initialize(iterations = 100, folds = 5)
     @iterations = iterations

@@ -2,6 +2,8 @@ require 'rubyml/tools'
 require 'rubyml/linear_regression'
 require 'rubyml/perceptron'
 
+# Monkey patching the Matrix class to
+# implement matrix splicing.
 class Matrix
   alias old_element element
   def [](i, j)
@@ -76,6 +78,8 @@ class Matrix
   end
 end
 
+# A general class to allow access to
+# data manipulation tools.
 class RubyML
   include Tools::DataMethods
 end

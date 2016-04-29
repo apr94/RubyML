@@ -1,6 +1,7 @@
 require 'matrix'
 
 module Tools
+  # Methods for loading and manipulating data.
   module DataMethods
     def load_data(file, text = false)
       mat = []
@@ -30,6 +31,8 @@ module Tools
     end
   end
 
+  # Methods to test classifier accuracy via
+  # K-fold cross validation.
   module ClassifierMethods
     def generate_folds(x, y, num, folds)
       sin = String(num * (x.row_count / folds))
