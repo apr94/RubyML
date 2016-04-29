@@ -1,4 +1,5 @@
 require 'matrix'
+require 'gruff'
 
 module Tools
   # Methods for loading and manipulating data.
@@ -28,6 +29,23 @@ module Tools
       ones = Matrix.columns([[1] * x.row_count])
       x_bias = ones.hstack(x)
       x_bias
+    end
+
+    def plot_function(px, py, theta)
+      fx = []
+      fy = []
+      1000.times do |i|
+        fx << (px[0] + (px[-1] - px[0]) * Float(i) / 1000.0)
+        fy << (fx[-1] * theta[1] + theta[0])
+      end
+      plot(fx, fy, px, py)
+    end
+
+    def plot(fx, fy, px, py)
+      g = Gruff::Scatter.new(800)
+      g.data(:data, px, py)
+      g.data(:fit, fx, fy)
+      g.write('scatter.png')
     end
   end
 

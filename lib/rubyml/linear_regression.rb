@@ -24,4 +24,11 @@ class LinearRegression
     x_mat = bias_trick(x)
     (x_mat * @theta).collect { |e| e.round(@precision) }
   end
+
+  def visualize(x, y)
+    x = mat_to_array(x)
+    y = mat_to_array(y)
+    theta = mat_to_array(@theta)
+    plot_function(x, y, theta)
+  end
 end
